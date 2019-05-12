@@ -3,15 +3,16 @@ import { NgModule } from '@angular/core';
 import {
   NbAuthComponent,
   NbLoginComponent,
+
   NbLogoutComponent,
   NbRegisterComponent,
   NbRequestPasswordComponent,
   NbResetPasswordComponent,
 } from '@nebular/auth';
 import { AuthGuard } from './auth-guard.service';
-
+import { LoginComponent } from './auth/login/login.component';
 const routes: Routes = [
-  { path: 'pages', loadChildren: 'app/pages/pages.module#PagesModule' },
+  { path: 'pages', loadChildren: 'app/pages/pages.module#PagesModule',canActivate:[AuthGuard] },
   {
     path: 'auth',
     component: NbAuthComponent,
@@ -22,7 +23,7 @@ const routes: Routes = [
       },
       {
         path: 'login',
-        component: NbLoginComponent,
+        component: LoginComponent,
       },
       {
         path: 'register',
@@ -53,6 +54,7 @@ const config: ExtraOptions = {
 @NgModule({
   imports: [RouterModule.forRoot(routes, config)],
   exports: [RouterModule],
+  providers:[AuthGuard]
 })
 export class AppRoutingModule {
 }

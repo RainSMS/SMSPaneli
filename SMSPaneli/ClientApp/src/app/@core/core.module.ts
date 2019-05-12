@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
+import { NbAuthModule, NbPasswordAuthStrategy, NbAuthSimpleToken } from '@nebular/auth';
 import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
 import { of as observableOf } from 'rxjs';
 
@@ -90,22 +90,33 @@ export const NB_CORE_PROVIDERS = [
 
     strategies: [
       NbPasswordAuthStrategy.setup({
-        name: 'email',
+        name: 'username',
 
-        baseEndpoint: '',
+        baseEndpoint: 'https://localhost:5001/',
         login: {
           // ...
-          endpoint: '/api/auth/login',
+          endpoint: 'api/auth/login',
+          method :'post'
         },
         register: {
           // ...
           endpoint: '/api/auth/register',
         },
+        token: {
+          class: NbAuthSimpleToken,
+          key :'token'
+        }
       }),
     ],
     forms: {
       login: {
-       
+        redirectDelay: 500, // delay before redirect after a successful login, while success message is shown to the user
+        strategy: 'username',  // strategy id key.
+        rememberMe: true,   // whether to show or not the `rememberMe` checkbox
+        showMessages: {     // show/not show success/error messages
+          success: true,
+          error: true,
+        },
       },
       register: {
 
