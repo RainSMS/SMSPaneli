@@ -37,7 +37,7 @@ namespace SMSPaneli
             {
                 var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
                 var credentialBytes = Convert.FromBase64String(authHeader.Parameter);
-                System.Diagnostics.Debug.WriteLine(credentialBytes);
+               
 
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split(':');
                 var username = credentials[0];
